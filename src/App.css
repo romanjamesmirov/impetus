@@ -1,0 +1,87 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} 
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+} 
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+.App {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+.Tasks-Page {
+  max-width: 90rem;
+  margin: 0 auto 6em;
+}
+
+.Active-Tasks ul, .Inactive-Tasks ul {
+  padding: 0 1em 1.5em 0;
+}
+
+.Active-Tasks ul::after, .Inactive-Tasks ul::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.Active-Tasks li, .Inactive-Tasks li {
+  list-style-type: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  display: block;
+  float: left;
+  margin: 1.5em 0 0 1em;
+}
+
+.Active-Tasks li:hover, .Inactive-Tasks li:hover {
+  cursor: pointer;
+}
+
+.Active-Tasks li {
+  background-color: #12f;
+  color: white;
+}
+
+.Inactive-Tasks li {
+  background-color: #ccc;
+}
+
+hr {
+  margin: 0.5em 1em;
+  border: none;
+  border-top: 1px solid #ccc;
+}
