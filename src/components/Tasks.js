@@ -13,6 +13,19 @@ export default class Tasks extends Component {
 		this.toggleTask = this.toggleTask.bind(this)
 	}
 
+	componentDidMount() {
+		if (localStorage.getItem('activeTasks') !== null) {
+			const storedActiveTasks = JSON.parse(window.localStorage.getItem('activeTasks'))
+			const storedInactiveTasks = JSON.parse(window.localStorage.getItem('inactiveTasks'))
+			this.setState({ activeTasks: storedActiveTasks, inactiveTasks: storedInactiveTasks })
+		}
+	}
+
+	componentWillUnmount() {
+		window.localStorage.setItem('activeTasks', JSON.stringify(this.state.activeTasks))
+		window.localStorage.setItem('inactiveTasks', JSON.stringify(this.state.inactiveTasks))
+	}
+
 	createTask() {
 		const newTaskName = prompt('Task')
 		this.setState(state => ({ inactiveTasks: [...state.inactiveTasks, newTaskName] }))
