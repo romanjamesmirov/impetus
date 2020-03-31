@@ -7,23 +7,19 @@ export default class Tasks extends Component {
 		super(props)
 		this.state = {
 			activeTasks: [],
-			inactiveTasks: []
+			inactiveTasks: [],
+			checkedStorage: false
 		}
 		this.createTask = this.createTask.bind(this)
 		this.toggleTask = this.toggleTask.bind(this)
 	}
 
 	componentDidMount() {
-		if (localStorage.getItem('activeTasks') !== null) {
+		if (window.localStorage.getItem('activeTasks') !== null) {
 			const storedActiveTasks = JSON.parse(window.localStorage.getItem('activeTasks'))
 			const storedInactiveTasks = JSON.parse(window.localStorage.getItem('inactiveTasks'))
-			this.setState({ activeTasks: storedActiveTasks, inactiveTasks: storedInactiveTasks })
+			this.setState({ activeTasks: storedActiveTasks, inactiveTasks: storedInactiveTasks, checkedStorage: true })
 		}
-	}
-
-	componentWillUnmount() {
-		window.localStorage.setItem('activeTasks', JSON.stringify(this.state.activeTasks))
-		window.localStorage.setItem('inactiveTasks', JSON.stringify(this.state.inactiveTasks))
 	}
 
 	createTask() {
@@ -49,6 +45,10 @@ export default class Tasks extends Component {
 	}
 
 	render() {
+		if (this.state.checkedStorage === true) {
+			window.localStorage.setItem('activeTasks', JSON.stringify(this.state.activeTasks))
+			window.localStorage.setItem('inactiveTasks', JSON.stringify(this.state.inactiveTasks))
+		}
 		return (
 			<div className='Tasks-Page'>
 				<section className='Active-Tasks'>
