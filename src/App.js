@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Tasks from './components/Tasks'
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 function App() {

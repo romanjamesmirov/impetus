@@ -18,8 +18,9 @@ export default class Tasks extends Component {
 		if (window.localStorage.getItem('activeTasks') !== null) {
 			const storedActiveTasks = JSON.parse(window.localStorage.getItem('activeTasks'))
 			const storedInactiveTasks = JSON.parse(window.localStorage.getItem('inactiveTasks'))
-			this.setState({ activeTasks: storedActiveTasks, inactiveTasks: storedInactiveTasks, checkedStorage: true })
+			this.setState({ activeTasks: storedActiveTasks, inactiveTasks: storedInactiveTasks })
 		}
+		this.setState({ checkedStorage: true })
 	}
 
 	createTask() {
@@ -46,7 +47,6 @@ export default class Tasks extends Component {
 
 	render() {
 		if (this.state.checkedStorage === true) {
-			console.log(window.localStorage)
 			window.localStorage.setItem('activeTasks', JSON.stringify(this.state.activeTasks))
 			window.localStorage.setItem('inactiveTasks', JSON.stringify(this.state.inactiveTasks))
 		}
@@ -67,7 +67,7 @@ export default class Tasks extends Component {
 				<section className='Inactive-Tasks'>
 					<ul>
 						{this.state.activeTasks.length === 0 && this.state.inactiveTasks.length === 0
-							? <li className='Empty-Tasks-Message'>Add a new task ➡️</li>
+							? <li className='Empty-Tasks-Message'>Add a new task <span role='img' aria-label='Right arrow'>➡️</span></li>
 							: this.state.inactiveTasks.length === 0
 								? <li className='Empty-Tasks-Message'>All tasks are active.</li>
 								: this.state.inactiveTasks.map((task, index) => (
