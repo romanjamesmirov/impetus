@@ -46,6 +46,7 @@ export default class Tasks extends Component {
 
 	render() {
 		if (this.state.checkedStorage === true) {
+			console.log(window.localStorage)
 			window.localStorage.setItem('activeTasks', JSON.stringify(this.state.activeTasks))
 			window.localStorage.setItem('inactiveTasks', JSON.stringify(this.state.inactiveTasks))
 		}
