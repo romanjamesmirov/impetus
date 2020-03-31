@@ -25,19 +25,25 @@ export default class Tasks extends Component {
 
 	createTask() {
 		const newTaskName = prompt('Task')
-		this.setState(state => ({ inactiveTasks: [...state.inactiveTasks, newTaskName] }))
+		this.setState(state => ({
+			inactiveTasks: [
+				...state.inactiveTasks,
+				{ name: newTaskName, activePeriods: [] }
+			]
+		}))
 	}
 
 	toggleTask(e) {
 		let newActiveTasks = [...this.state.activeTasks]
 		let newInactiveTasks = [...this.state.inactiveTasks]
-		const toggledTask = e.target.textContent
-		if (newActiveTasks.indexOf(toggledTask) !== -1) {
-			newActiveTasks.splice(newActiveTasks.indexOf(toggledTask), 1)
-			newInactiveTasks.unshift(toggledTask)
-		} else if (newInactiveTasks.indexOf(toggledTask) !== -1) {
-			newInactiveTasks.splice(newInactiveTasks.indexOf(toggledTask), 1)
-			newActiveTasks.unshift(toggledTask)
+		const toggledTaskName = e.target.textContent
+		const indexInActiveTasks = newActiveTasks.findIndex(task => task.name === toggledTaskName)
+		const isCurrentlyActive = indexInActiveTasks !== -1 
+		if (isCurrentlyActive) {
+			newInactiveTasks.unshift(newActiveTasks.splice(indexInActiveTasks, 1)[0])
+		} else {
+			const indexInInactiveTasks = newInactiveTasks.findIndex(task => task.name === toggledTaskName)
+			newActiveTasks.unshift(newInactiveTasks.splice(indexInInactiveTasks, 1)[0])
 		}
 		this.setState(state => ({
 			activeTasks: [...newActiveTasks],
@@ -58,7 +64,7 @@ export default class Tasks extends Component {
 							? <li className='Empty-Tasks-Message'>You have no active tasks.</li>
 							: this.state.activeTasks.map((task, index) => (
 								<li key={index} className='Task-Item'>
-									<button onClick={this.toggleTask}>{task}</button>
+									<button onClick={this.toggleTask}>{task.name}</button>
 								</li>
 							))}
 					</ul>
@@ -72,7 +78,7 @@ export default class Tasks extends Component {
 								? <li className='Empty-Tasks-Message'>All tasks are active.</li>
 								: this.state.inactiveTasks.map((task, index) => (
 									<li key={index} className='Task-Item'>
-										<button onClick={this.toggleTask}>{task}</button>
+										<button onClick={this.toggleTask}>{task.name}</button>
 									</li>
 								))}
 						<li className='Create-Task'>
