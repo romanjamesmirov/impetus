@@ -34,16 +34,24 @@ export default class Tasks extends Component {
 	}
 
 	toggleTask(e) {
+		let now = new Date()
+		now = now.toString()
 		let newActiveTasks = [...this.state.activeTasks]
 		let newInactiveTasks = [...this.state.inactiveTasks]
-		const toggledTaskName = e.target.textContent
+		const toggledTaskName = e.target.getAttribute('data-name')
 		const indexInActiveTasks = newActiveTasks.findIndex(task => task.name === toggledTaskName)
-		const isCurrentlyActive = indexInActiveTasks !== -1 
-		if (isCurrentlyActive) {
-			newInactiveTasks.unshift(newActiveTasks.splice(indexInActiveTasks, 1)[0])
+		const indexInInactiveTasks = newInactiveTasks.findIndex(task => task.name === toggledTaskName)
+		if (indexInActiveTasks !== -1) {
+			const toggledTask = newActiveTasks.splice(indexInActiveTasks, 1)[0]
+			toggledTask.activePeriods[toggledTask.activePeriods.length - 1].end = now
+			newInactiveTasks.unshift(toggledTask)
 		} else {
-			const indexInInactiveTasks = newInactiveTasks.findIndex(task => task.name === toggledTaskName)
-			newActiveTasks.unshift(newInactiveTasks.splice(indexInInactiveTasks, 1)[0])
+			const toggledTask = newInactiveTasks.splice(indexInInactiveTasks, 1)[0]
+			toggledTask.activePeriods[toggledTask.activePeriods.length] = {
+				start: now,
+				end: null
+			}
+			newActiveTasks.unshift(toggledTask)
 		}
 		this.setState(state => ({
 			activeTasks: [...newActiveTasks],
@@ -64,7 +72,7 @@ export default class Tasks extends Component {
 							? <li className='Empty-Tasks-Message'>You have no active tasks.</li>
 							: this.state.activeTasks.map((task, index) => (
 								<li key={index} className='Task-Item'>
-									<button onClick={this.toggleTask}>{task.name}</button>
+									<button onClick={this.toggleTask} data-name={task.name}>{task.name}</button>
 								</li>
 							))}
 					</ul>
@@ -76,11 +84,16 @@ export default class Tasks extends Component {
 							? <li className='Empty-Tasks-Message'>Add a new task <span role='img' aria-label='Right arrow'>➡️</span></li>
 							: this.state.inactiveTasks.length === 0
 								? <li className='Empty-Tasks-Message'>All tasks are active.</li>
-								: this.state.inactiveTasks.map((task, index) => (
-									<li key={index} className='Task-Item'>
-										<button onClick={this.toggleTask}>{task.name}</button>
-									</li>
-								))}
+								: this.state.inactiveTasks.map((task, index) => {
+									let totalTime = 0
+									for (let i = 0; i < task.activePeriods.length; i++) {
+										totalTime += (Date.parse(task.activePeriods[i].end) - Date.parse(task.activePeriods[i].start))
+										console.log(task.activePeriods[i].end, task.activePeriods[i].start)
+									}
+									return (<li key={index} className='Task-Item'>
+										<button onClick={this.toggleTask} data-name={task.name}>{task.name} - {totalTime / 1000} sec</button>
+									</li>)
+								})}
 						<li className='Create-Task'>
 							<button onClick={this.createTask}>
 								<img src={Plus} alt='Plus icon' />
