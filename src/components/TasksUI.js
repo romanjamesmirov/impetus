@@ -5,17 +5,18 @@ import Plus from '../static/Plus.svg'
 
 export default class TasksUI extends Component {
 	componentDidMount() {
+		this.tasksPage.focus()
 	}
 	
 	render() {
-		if (this.tasksPage !== undefined) this.tasksPage.focus()
+		if (document.activeElement.parentElement.classList.contains('non-minimalist') && this.props.minimalistMode) this.tasksPage.focus()
 		return (
 			<div
 				onMouseDown={this.props.handlePageMouseOrKeyDown}
 				onKeyDown={this.props.handlePageMouseOrKeyDown} tabIndex='0'
 				ref={el => this.tasksPage = el}
-				className={`Tasks-page ${this.props.minimalistMode ? 'minimalist' : ''} ${this.props.usingMouse ? '' : 'using-tab'}`}>
-				<nav>
+				className={`Tasks-page ${this.props.minimalistMode ? 'minimalist' : ''} ${this.props.usingMouse ? 'using-mouse' : ''}`}>
+				<nav className='non-minimalist'>
 					<button onMouseDown={this.props.handleMenuClick} onKeyDown={this.props.handleMenuClick} className='menu'>
 						<img src={Menu} alt='Menu icon' /></button>
 				</nav>
@@ -49,7 +50,7 @@ export default class TasksUI extends Component {
 									</li>)
 								})}
 
-						<li className='Create-task'>
+						<li className='Create-task non-minimalist'>
 							<button onMouseDown={this.props.createTask} onKeyDown={this.props.createTask}>
 								<img src={Plus} alt='Plus icon' />
 							</button>

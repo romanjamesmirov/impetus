@@ -89,7 +89,7 @@ export default class Tasks extends Component {
 			window.localStorage.setItem('activeGroup', JSON.stringify(this.state.activeGroup))
 			window.localStorage.setItem('inactiveGroup', JSON.stringify(this.state.inactiveGroup))
 		}
-		if (this.state.toData) return <Redirect to='/data' /> 
+		if (this.state.toData) return <Redirect to='/data' />
 		return (
 			<TasksUI {...this.state} handlePageMouseOrKeyDown={this.handlePageMouseOrKeyDown} handleMenuClick={this.handleMenuClick} createTask={this.createTask} toggleTask={this.toggleTask} />
 		)

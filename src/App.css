@@ -1,26 +1,30 @@
-.Tasks-page {
+.Tasks-page, .Data-page {
   width: 100%;
   min-height: 100vh;
   display: flex;
   flex-flow: column;
   justify-content: center;
-  padding: 2em 0 6em;
+  padding: 3em 0 6em;
 }
 
-.Tasks-page > nav, .Tasks-page > section, .Tasks-page > hr {
+.using-mouse, .using-mouse button:focus {
+  outline: none;
+}
+
+.Tasks-page > nav, .Tasks-page > section, .Tasks-page > hr, .Data-page > nav {
   width: 100%;
   max-width: 90rem;
   margin: 0 auto;
 }
 
-.Tasks-page > nav {
+.Tasks-page > nav, .Data-page > nav {
   position: fixed;
-  top: 2em;
+  top: 1em;
   left: 0;
   right: 0;
 }
 
-.Tasks-page.minimalist nav {
+.Tasks-page.minimalist .non-minimalist {
   display: none;
 }
 
@@ -46,6 +50,7 @@ nav button img {
   padding: 0 1em 1.5em 0;
 }
 
+/* clearfix */
 .Active-group ul::after, .Inactive-group ul::after {
   content: "";
   display: table;
@@ -81,15 +86,6 @@ nav button img {
   cursor: pointer;
 }
 
-button {
-  outline: none;
-}
-
-.using-tab button:focus {
-  outline: 1px dotted #212121;
-  outline: 5px auto -webkit-focus-ring-color;
-}
-
 .Active-group .Task-item {
   background-color: #12f;
   color: #fff;
@@ -105,10 +101,6 @@ button {
   max-width: calc(90rem - 2em);
   border: none;
   border-top: 1px solid #ccc;
-}
-
-.Tasks-page.minimalist .Create-task {
-  display: none;
 }
 
 .Create-task {
